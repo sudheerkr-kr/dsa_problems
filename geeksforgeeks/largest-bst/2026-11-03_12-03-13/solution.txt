@@ -1,0 +1,45 @@
+
+class Solution {
+  public:
+
+    struct Info {
+        int mini;
+        int maxi;
+        int size;
+        bool isBST;
+    };
+
+    Info solve(Node* root) {
+        if(root == NULL) {
+            return {INT_MAX, INT_MIN, 0, true};
+        }
+
+        Info left = solve(root->left);
+        Info right = solve(root->right);
+
+        Info curr;
+
+        if(left.isBST && right.isBST &&
+           root->data > left.maxi &&
+           root->data < right.mini) {
+
+            curr.isBST = true;
+            curr.size = left.size + right.size + 1;
+            curr.mini = min(root->data, left.mini);
+            curr.maxi = max(root->data, right.maxi);
+
+            return curr;
+        }
+
+        curr.isBST = false;
+        curr.size = max(left.size, right.size);
+        curr.mini = INT_MIN;
+        curr.maxi = INT_MAX;
+
+        return curr;
+    }
+
+    int largestBst(Node *root) {
+        return solve(root).size;
+    }
+};
