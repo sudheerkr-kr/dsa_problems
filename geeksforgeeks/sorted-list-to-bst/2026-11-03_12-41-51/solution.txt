@@ -1,0 +1,65 @@
+/* structure of Linked List Node
+class LNode {
+public:
+    int data;
+    LNode* next;
+
+    LNode(int x) {
+        data = x;
+        next = nullptr;
+    }
+};
+
+// Tree Node
+class TNode {
+public:
+    int data;
+    TNode* left;
+    TNode* right;
+
+    TNode(int x) {
+        data = x;
+        left = right = nullptr;
+    }
+};*/
+
+
+class Solution {
+  public:
+
+    void countLLsize(LNode* head, int &n) {
+        while(head != NULL) {
+            n++;
+            head = head->next;
+        }
+    }
+
+    TNode* solve(LNode* &head, int n) {
+        if(n <= 0 || head == NULL) {
+            return NULL;
+        }
+
+        // Create left subtree
+        TNode* leftSubtree = solve(head, n/2);
+
+        // Create root node
+        TNode* root = new TNode(head->data);
+        root->left = leftSubtree;
+
+        // Move linked list pointer
+        head = head->next;
+
+        // Create right subtree
+        root->right = solve(head, n - 1 - n/2);
+
+        return root;
+    }
+
+    TNode *sortedListToBST(LNode *head) {
+        int n = 0;
+
+        countLLsize(head, n);
+
+        return solve(head, n);
+    }
+};
