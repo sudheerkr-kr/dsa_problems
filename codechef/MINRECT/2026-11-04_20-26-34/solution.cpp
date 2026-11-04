@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+    int t;
+    cin >> t;
+
+    while(t--) {
+        int n, m;
+        cin >> n >> m;
+
+        vector<string> a(n);
+
+        for(int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+
+        int minRow = n, maxRow = -1;
+        int minCol = m, maxCol = -1;
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(a[i][j] == '1') {
+                    minRow = min(minRow, i);
+                    maxRow = max(maxRow, i);
+
+                    minCol = min(minCol, j);
+                    maxCol = max(maxCol, j);
+                }
+            }
+        }
+
+        int ans = (maxRow - minRow + 1) *
+                  (maxCol - minCol + 1);
+
+        cout << ans << endl;
+    }
+
+    return 0;
+}
